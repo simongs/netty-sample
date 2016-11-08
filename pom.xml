@@ -26,11 +26,16 @@
     <packaging>jar</packaging>
 
     <properties>
-        <jdk-version>1.7</jdk-version>
-        <netty-version>4.1.6.Final</netty-version>
+        <jdk-version>1.8</jdk-version>
+
         <source-encoding>UTF-8</source-encoding>
         <resource-encoding>UTF-8</resource-encoding>
-        <deploy-path>./deploy</deploy-path>
+
+        <!-- dependency version properties -->
+        <netty-version>4.1.6.Final</netty-version>
+        <commons-lang-version>2.6</commons-lang-version>
+        <junit-version>4.12</junit-version>
+
     </properties>
 
     <repositories>
@@ -40,6 +45,89 @@
             <url>http://mvnrepository.com/artifact</url>
         </repository>
     </repositories>
+
+    <!-- BDS Deploy -->
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <maven.test.skip>false</maven.test.skip>
+                <deploy.phase>local</deploy.phase>
+                <outputDirectory>target</outputDirectory>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <maven.test.skip>false</maven.test.skip>
+                <deploy.phase>dev</deploy.phase>
+                <outputDirectory>../deploy</outputDirectory>
+            </properties>
+        </profile>
+        <profile>
+            <id>beta</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+                <deploy.phase>beta</deploy.phase>
+                <outputDirectory>../deploy</outputDirectory>
+            </properties>
+        </profile>
+        <profile>
+            <id>real</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+                <deploy.phase>real</deploy.phase>
+                <outputDirectory>../deploy</outputDirectory>
+            </properties>
+        </profile>
+    </profiles>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <outputDirectory>${project.basedir}/target/classes</outputDirectory>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources-${deploy.phase}/</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${jdk-version}</source>
+                    <target>${jdk-version}</target>
+                    <encoding>${source-encoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <argLine>-Xms512m -Xmx2048m -XX:MaxPermSize=512m -XX:PermSize=256m</argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
 
     <dependencies>
         <!-- netty -->
@@ -53,7 +141,7 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
+            <version>${commons-lang-version}</version>
         </dependency>
 
         <!-- logging -->
@@ -79,85 +167,10 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit-version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <!-- BDS Deploy -->
-    <profiles>
-        <profile>
-            <id>local</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <env>local</env>
-                <deploy-dir>target/m2e-wtp/web-resources</deploy-dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <env>alpha</env>
-                <deploy-dir>./deploy</deploy-dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>beta</id>
-            <properties>
-                <env>beta</env>
-                <deploy-dir>./deploy</deploy-dir>
-            </properties>
-        </profile>
-        <profile>
-            <id>release</id>
-            <properties>
-                <env>release</env>
-                <deploy-dir>./deploy</deploy-dir>
-            </properties>
-        </profile>
-    </profiles>
-
-    <build>
-        <resources>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>*.xml</include>
-                    <include>**</include>
-                </includes>
-            </resource>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/resources-${env}</directory>
-            </resource>
-        </resources>
-        <filters>
-            <filter>src/main/resources-${env}/build.properties</filter>
-        </filters>
-        <plugins>
-
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>${jdk-version}</source>
-                    <target>${jdk-version}</target>
-                    <encoding>${source-encoding}</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
-                <configuration>
-                    <encoding>${source-encoding}</encoding>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
 
