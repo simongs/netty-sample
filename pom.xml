@@ -20,8 +20,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.dasolute.simons</groupId>
-    <artifactId>netty-example</artifactId>
-    <name>netty-example</name>
+    <artifactId>netty-sample</artifactId>
+    <name>netty-sample</name>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
