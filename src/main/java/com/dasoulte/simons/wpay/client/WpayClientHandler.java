@@ -30,7 +30,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 public class WpayClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
-        String sendMessage = "Hello netty, eoriutoeirugojvm";
+        String sendMessage = "한글";
 
         ByteBuf messageBuffer = Unpooled.buffer();
         messageBuffer.writeBytes(sendMessage.getBytes());

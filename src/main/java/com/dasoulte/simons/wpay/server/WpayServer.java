@@ -16,12 +16,6 @@ import java.util.logging.SocketHandler;
 
 public class WpayServer {
 
-   /* public static void main(String[] args) throws Exception {
-        NettyStartupUtil.runServer(8021, new WpayServerHandler());
-    }*/
-
-
-
     public static void main(String[] args) throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -39,7 +33,6 @@ public class WpayServer {
                 }
             });
 
-            // ; new WpayServerHandler()); // 여기가 핵심!! 실제 커넥션이 하나하나 할당된 context에서 무슨 일을 할 것인가,
             ChannelFuture f = b.bind(8888).sync(); // 8888 번 포트로 서버를 올리겠다.
             System.err.println("Ready for 0.0.0.0:8888");
             f.channel().closeFuture().sync();
