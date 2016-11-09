@@ -1,4 +1,4 @@
-package com.dasoulte.simons.server.core;
+package com.dasoulte.simons.core;
 
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;

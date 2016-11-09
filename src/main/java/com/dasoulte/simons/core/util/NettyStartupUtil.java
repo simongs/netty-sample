@@ -1,4 +1,4 @@
-package com.dasoulte.simons.server.core.util;
+package com.dasoulte.simons.core.util;
 
 import java.util.function.Consumer;
 

@@ -1,5 +1,5 @@
 // modified from http://netty.io/wiki/user-guide-for-4.x.html
-package com.dasoulte.simons.server.wpay;
+package com.dasoulte.simons.wpay.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;

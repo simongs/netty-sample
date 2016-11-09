@@ -1,8 +1,6 @@
-package com.dasoulte.simons.server.core;
+package com.dasoulte.simons.core;
 
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by NHNEnt on 2016-11-08.
