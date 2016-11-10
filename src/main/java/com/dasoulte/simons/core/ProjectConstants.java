@@ -9,4 +9,6 @@ public class ProjectConstants {
     public static final String KSC5601_ENCODING = "KSC5601";
     public static final String EUCKR_ENCODING = "EUC-KR";
 
+    public static final int COMMON_HTTP_READ_TIMEOUT = 5000;
+    public static final int COMMON_HTTP_CONNECTION_TIMEOUT = 5000;
 }

@@ -10,6 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @PropertySource("classpath:properties/value.properties")
 public class ApplicationConfiguration {
+
     @Value("${payco.billing.api.host}")
     private String paycoApiHost;
 

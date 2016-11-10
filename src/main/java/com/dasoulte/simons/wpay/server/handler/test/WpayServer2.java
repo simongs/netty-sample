@@ -1,11 +1,6 @@
-package com.dasoulte.simons.wpay.server;
+package com.dasoulte.simons.wpay.server.handler.test;
 
 
-import com.dasoulte.simons.wpay.server.handler.WpayMessageDecoder;
-import com.dasoulte.simons.wpay.server.handler.WpayServerHandler;
-
-import com.dasoulte.simons.wpay.server.handler.test.WpayMessageDecoder2;
-import com.dasoulte.simons.wpay.server.handler.test.WpayServerHandler2;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -18,7 +13,7 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
 
-public class WpayServer {
+public class WpayServer2 {
 
     public static void main(String[] args) throws Exception {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
@@ -33,8 +28,8 @@ public class WpayServer {
                 protected void initChannel(SocketChannel sc) throws Exception {
                     ChannelPipeline pipeLine = sc.pipeline();
                     pipeLine.addLast(new LoggingHandler(LogLevel.DEBUG));
-                    pipeLine.addLast(new WpayMessageDecoder());
-                    pipeLine.addLast(new WpayServerHandler());
+                    pipeLine.addLast(new WpayMessageDecoder2(), new WpayMessageEncoder2());
+                    pipeLine.addLast(new WpayServerHandler2());
                 }
             });
 

@@ -1,67 +1,37 @@
-package com.dasoulte.simons.socket;
-
-import java.io.*;
-import java.io.ByteArrayOutputStream;
-import java.net.Socket;
-import java.util.Date;
-
-import com.dasoulte.simons.core.util.BytesUtils;
-import com.dasoulte.simons.core.util.DateUtils;
-import org.apache.commons.io.IOUtils;
-
-import org.apache.commons.lang.StringUtils;
-import org.junit.Test;
+/*
+ * Copyright 2012 The Netty Project
+ *
+ * The Netty Project licenses this file to you under the Apache License,
+ * version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at:
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+package com.dasoulte.simons.wpay.server.handler.test;
 
 import com.dasoulte.simons.core.ProjectConstants;
+import com.dasoulte.simons.core.util.BytesUtils;
+import com.dasoulte.simons.core.util.DateUtils;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToByteEncoder;
+import org.apache.commons.lang.StringUtils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Date;
 
-/**
- * Created by NHNEnt on 2016-11-09.
- */
-public class SocketTest {
+public class WpayMessageEncoder2 extends MessageToByteEncoder<ByteBuf> {
 
-    private static final String host = "127.0.0.1";
-    private static final int port = 8888;
+    @Override
+    protected void encode(ChannelHandlerContext ctx, ByteBuf msg, ByteBuf out) {
 
-    @Test
-    public void test() throws Exception {
-        Socket socket = null;
-        BufferedOutputStream bufferedOutputStream = null;
-        BufferedInputStream bufferedInputStream = null;
-
-        try {
-            socket = new Socket(host, port);
-            socket.setSoTimeout(50000);
-
-            /** 전송부 */
-            bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());
-
-            byte[] payload = getPayload();
-
-            bufferedOutputStream.write(payload);
-            bufferedOutputStream.flush();
-
-
-            /** 응답부 */
-            bufferedInputStream = new BufferedInputStream(socket.getInputStream());
-
-            byte[] bRecvSecond = new byte[payload.length];
-            int bytesRead = 0;
-            int sumByte = 0;
-            do {
-                bytesRead = bufferedInputStream.read(bRecvSecond, sumByte, payload.length - sumByte);
-                sumByte = bytesRead + sumByte;
-            } while (sumByte < payload.length);
-
-            System.out.println(bRecvSecond);
-        } finally {
-            IOUtils.closeQuietly(bufferedInputStream);
-            IOUtils.closeQuietly(bufferedOutputStream);
-            IOUtils.closeQuietly(socket);
-        }
-    }
-
-    public byte[] getPayload() throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         try {
@@ -81,26 +51,17 @@ public class SocketTest {
             bos.write(BytesUtils.getBytes("38070220-c6d3-11e4-960b-62a8e766d218", ProjectConstants.KSC5601_ENCODING, 40, BytesUtils.FillerType.BLANK, BytesUtils.FillerPosition.RIGHT));
             bos.write(BytesUtils.getBytes(StringUtils.EMPTY, ProjectConstants.KSC5601_ENCODING, 50, BytesUtils.FillerType.BLANK, BytesUtils.FillerPosition.RIGHT));
             bos.write(BytesUtils.getBytes(StringUtils.EMPTY, ProjectConstants.KSC5601_ENCODING, 306, BytesUtils.FillerType.BLANK, BytesUtils.FillerPosition.RIGHT));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         } finally {
-            bos.close();
+            try {
+                bos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
-        return bos.toByteArray();
+        out.writeBytes(msg);
     }
-
-    public byte[] getPayload2() throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-
-        try {
-            /** 공통부 조립*/
-            bos.write(BytesUtils.getBytes("4", ProjectConstants.KSC5601_ENCODING, 4, BytesUtils.FillerType.ZERO, BytesUtils.FillerPosition.LEFT));
-            bos.write(BytesUtils.getBytes("USER", ProjectConstants.KSC5601_ENCODING, 4, BytesUtils.FillerType.BLANK, BytesUtils.FillerPosition.RIGHT));
-        } finally {
-            bos.close();
-        }
-
-        return bos.toByteArray();
-    }
-
 
 }
