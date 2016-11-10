@@ -15,14 +15,7 @@
  */
 package com.dasoulte.simons.wpay.server.handler.test;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
-
-import org.apache.commons.lang.StringUtils;
-
-import com.dasoulte.simons.core.ProjectConstants;
-import com.dasoulte.simons.wpay.WpayConstants;
-import com.dasoulte.simons.wpay.server.entity.WpayPayloadFactory;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -41,7 +34,7 @@ public class WpayMessageDecoder2 extends ByteToMessageDecoder {
         System.out.println(in);
 
         byte[] lengthBytes = ByteBufUtil.getBytes(in, 0, 4);
-        int payloadLength = 400 + Integer.parseInt(new String(lengthBytes));
+        int payloadLength = 4 + Integer.parseInt(new String(lengthBytes));
 
         System.out.println(in);
 

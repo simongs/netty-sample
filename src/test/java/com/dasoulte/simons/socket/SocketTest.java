@@ -36,7 +36,7 @@ public class SocketTest {
             /** 전송부 */
             bufferedOutputStream = new BufferedOutputStream(socket.getOutputStream());
 
-            byte[] payload = getPayload();
+            byte[] payload = getPayload2();
 
             bufferedOutputStream.write(payload);
             bufferedOutputStream.flush();
@@ -54,10 +54,19 @@ public class SocketTest {
             } while (sumByte < payload.length);
 
             System.out.println(bRecvSecond);
+            print(bRecvSecond);
+
         } finally {
             IOUtils.closeQuietly(bufferedInputStream);
             IOUtils.closeQuietly(bufferedOutputStream);
             IOUtils.closeQuietly(socket);
+        }
+    }
+
+    private void print(byte[] bRecvSecond) {
+        for (byte b : bRecvSecond) {
+            System.out.print(b);
+            System.out.print(' ');
         }
     }
 

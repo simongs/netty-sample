@@ -1,27 +1,10 @@
 package com.dasoulte.simons.wpay.server;
 
 
-import com.dasoulte.simons.wpay.server.handler.WpayMessageDecoder;
-import com.dasoulte.simons.wpay.server.handler.WpayServerHandler;
-
-import com.dasoulte.simons.wpay.server.handler.test.WpayMessageDecoder2;
-import com.dasoulte.simons.wpay.server.handler.test.WpayServerHandler2;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelPipeline;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
-
-
 public class WpayServer {
 
     public static void main(String[] args) throws Exception {
-        EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+       /* EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             ServerBootstrap b = new ServerBootstrap();
@@ -44,7 +27,7 @@ public class WpayServer {
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
-        }
+        }*/
     }
 
 }
