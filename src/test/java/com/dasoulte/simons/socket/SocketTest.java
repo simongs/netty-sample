@@ -41,7 +41,6 @@ public class SocketTest {
             bufferedOutputStream.write(payload);
             bufferedOutputStream.flush();
 
-
             /** 응답부 */
             bufferedInputStream = new BufferedInputStream(socket.getInputStream());
 
@@ -53,12 +52,22 @@ public class SocketTest {
                 sumByte = bytesRead + sumByte;
             } while (sumByte < payload.length);
 
-            System.out.println(bRecvSecond);
+            print(bRecvSecond);
         } finally {
             IOUtils.closeQuietly(bufferedInputStream);
             IOUtils.closeQuietly(bufferedOutputStream);
             IOUtils.closeQuietly(socket);
         }
+    }
+
+    private void print(byte[] bRecvSecond) {
+        System.out.println(bRecvSecond.length);
+
+        System.out.println("[" + BytesUtils.getStringFromReceiveByte(bRecvSecond, 200, 92, 292, ProjectConstants.KSC5601_ENCODING) + "]");
+        System.out.println("[" + BytesUtils.getStringFromReceiveByte(bRecvSecond, 4, 400, 404, ProjectConstants.KSC5601_ENCODING) + "]");
+        System.out.println("[" + BytesUtils.getStringFromReceiveByte(bRecvSecond, 40, 404, 444, ProjectConstants.KSC5601_ENCODING) + "]");
+        System.out.println("[" + BytesUtils.getStringFromReceiveByte(bRecvSecond, 50, 444, 494, ProjectConstants.KSC5601_ENCODING) + "]");
+        System.out.println("[" + BytesUtils.getStringFromReceiveByte(bRecvSecond, 4, 88, 92, ProjectConstants.KSC5601_ENCODING) + "]");
     }
 
     public byte[] getPayload() throws IOException {

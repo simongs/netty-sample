@@ -2,10 +2,9 @@ package com.dasoulte.simons.wpay.server;
 
 
 import com.dasoulte.simons.wpay.server.handler.WpayMessageDecoder;
+import com.dasoulte.simons.wpay.server.handler.WpayMessageEncoder;
 import com.dasoulte.simons.wpay.server.handler.WpayServerHandler;
 
-import com.dasoulte.simons.wpay.server.handler.test.WpayMessageDecoder2;
-import com.dasoulte.simons.wpay.server.handler.test.WpayServerHandler2;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -33,7 +32,7 @@ public class WpayServer {
                 protected void initChannel(SocketChannel sc) throws Exception {
                     ChannelPipeline pipeLine = sc.pipeline();
                     pipeLine.addLast(new LoggingHandler(LogLevel.DEBUG));
-                    pipeLine.addLast(new WpayMessageDecoder());
+                    pipeLine.addLast(new WpayMessageDecoder(), new WpayMessageEncoder());
                     pipeLine.addLast(new WpayServerHandler());
                 }
             });
