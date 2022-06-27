@@ -41,7 +41,7 @@
         <!-- Util -->
         <joda-time.version>1.6.2</joda-time.version>
         <jackson.version>2.3.0</jackson.version>
-        <libthrift.version>0.9.0</libthrift.version>
+        <libthrift.version>0.14.0</libthrift.version>
         <guava.version>17.0</guava.version>
 
         <!-- Test -->
